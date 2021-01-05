@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2020-12-24T01:01:26.757750+00:00",
+  "timestamp": "2021-01-05T01:06:37.275827+00:00",
   "repo": "httpwg/http2-spec",
   "labels": [
     {
@@ -18538,6 +18538,22 @@
           "updatedAt": "2020-12-17T10:20:57Z"
         }
       ]
+    },
+    {
+      "number": 802,
+      "id": "MDU6SXNzdWU3Nzc3NTE1NDY=",
+      "title": "Defer to core HTTP for 421 status code",
+      "url": "https://github.com/httpwg/http2-spec/issues/802",
+      "state": "OPEN",
+      "author": "martinthomson",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "https://github.com/httpwg/http-core/pull/624 added the definition of 421 (Misdirected Request) to the core HTTP specification.  We don't need to replicate that definition any more, it is only necessary to keep pointers.",
+      "createdAt": "2021-01-04T00:48:27Z",
+      "updatedAt": "2021-01-04T00:48:27Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
