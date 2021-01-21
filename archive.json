@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-01-10T01:14:36.246666+00:00",
+  "timestamp": "2021-01-21T01:30:37.155729+00:00",
   "repo": "httpwg/http2-spec",
   "labels": [
     {
@@ -18576,6 +18576,44 @@
           "body": "I don't think we'll be editorialising here about what exactly we use instead of \"payload body\": that's for the core spec to choose and we'll follow. However, it would be beneficial to reconcile our uses of the word \"payload\" in preparation for swapping over to whatever the new terms are. A quick skim through the document reveals that RFC 7540 is at least fairly consistent with its use of the word payload. It's not perfect, but it's close.\r\n\r\nThe word \"payload\" appears 57 times in the current `main` revision. The first instance notes that the term \"payload body\" is defined in RFC 7230, which is nice. The other major usage forms are either \"frame payload\" or the composite phrase \"payload of a * frame\". We can treat that as another distinct item. We should consider whether the composite phrase \"payload of a * frame\" should be comprehensively rewritten to be \"frame payload of a * frame\".\r\n\r\nExcluding those, there are only a few instances that need to be placed into one of these two buckets:\r\n\r\nhttps://github.com/httpwg/http2-spec/blob/0277adffeb4dfa0b02608a1b88f0825e9a39feb7/draft-thomson-httpbis-http2bis.xml#L310\r\n\r\n- This should probably be \"HTTP/2 SETTINGS frame payload\"\r\n\r\nhttps://github.com/httpwg/http2-spec/blob/0277adffeb4dfa0b02608a1b88f0825e9a39feb7/draft-thomson-httpbis-http2bis.xml#L510\r\n\r\n- Should be \"frame payload\"\r\n\r\nhttps://github.com/httpwg/http2-spec/blob/0277adffeb4dfa0b02608a1b88f0825e9a39feb7/draft-thomson-httpbis-http2bis.xml#L595\r\n\r\n- Should be \"frame payload data\"\r\n\r\nhttps://github.com/httpwg/http2-spec/blob/0277adffeb4dfa0b02608a1b88f0825e9a39feb7/draft-thomson-httpbis-http2bis.xml#L1538-L1540\r\n\r\n- Should be \"request or response payload bodies\" not \"request or response payloads\"\r\n\r\nhttps://github.com/httpwg/http2-spec/blob/0277adffeb4dfa0b02608a1b88f0825e9a39feb7/draft-thomson-httpbis-http2bis.xml#L2191\r\n\r\n- Should be \"frame payload\"\r\n\r\nhttps://github.com/httpwg/http2-spec/blob/0277adffeb4dfa0b02608a1b88f0825e9a39feb7/draft-thomson-httpbis-http2bis.xml#L2195-L2197\r\n\r\n- Should be \"with an identical frame payload\"\r\n\r\nhttps://github.com/httpwg/http2-spec/blob/0277adffeb4dfa0b02608a1b88f0825e9a39feb7/draft-thomson-httpbis-http2bis.xml#L2380-L2381\r\n\r\n- Should be \"frame payload\"\r\n\r\nhttps://github.com/httpwg/http2-spec/blob/0277adffeb4dfa0b02608a1b88f0825e9a39feb7/draft-thomson-httpbis-http2bis.xml#L2725\r\n\r\n- Probably the most egregious, given that we defined the term earlier, should be \"payload bodies\"\r\n\r\nhttps://github.com/httpwg/http2-spec/blob/0277adffeb4dfa0b02608a1b88f0825e9a39feb7/draft-thomson-httpbis-http2bis.xml#L2960\r\n\r\n- This citation uses \"payload body\" in the same paragraph, which is annoyingly inconsistent. Should be \"a response that is defined to have no payload body\".\r\n\r\nhttps://github.com/httpwg/http2-spec/blob/0277adffeb4dfa0b02608a1b88f0825e9a39feb7/draft-thomson-httpbis-http2bis.xml#L3016\r\n\r\n- Should be \"payload body\", not \"payload data\"\r\n\r\nhttps://github.com/httpwg/http2-spec/blob/0277adffeb4dfa0b02608a1b88f0825e9a39feb7/draft-thomson-httpbis-http2bis.xml#L3047\r\n\r\n- Should be \"payload body\", not \"payload data\"\r\n\r\nhttps://github.com/httpwg/http2-spec/blob/0277adffeb4dfa0b02608a1b88f0825e9a39feb7/draft-thomson-httpbis-http2bis.xml#L3789-L3795\r\n\r\n- Payload appears twice here: should be \"frame payload\".",
           "createdAt": "2021-01-08T13:26:56Z",
           "updatedAt": "2021-01-08T13:26:56Z"
+        }
+      ]
+    },
+    {
+      "number": 804,
+      "id": "MDU6SXNzdWU3ODkzNzgxNjQ=",
+      "title": "Connection headers and proxies",
+      "url": "https://github.com/httpwg/http2-spec/issues/804",
+      "state": "OPEN",
+      "author": "martinthomson",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We have generation rules\r\n> An endpoint MUST NOT generate an HTTP/2 message containing connection-specific header fields; any message containing connection-specific header fields MUST be treated as malformed (Section 8.1.2.6).\r\n\r\nAnd we have forwarding rules:\r\n> This means that an intermediary transforming an HTTP/1.x message to HTTP/2 will need to remove any header fields nominated by the Connection header field, along with the Connection header field itself.  Such intermediaries SHOULD also remove other connection-specific header fields, such as Keep-Alive, Proxy-Connection, Transfer-Encoding, and Upgrade, even if they are not nominated by the Connection header field.\r\n\r\nIn https://github.com/quicwg/base-drafts/pull/4747 for HTTP/3, we are discussing a requirement to remove Transfer-Encoding.  But the \"will need to\" for the proxy is what seems most strange.  Should this be a MUST instead?",
+      "createdAt": "2021-01-19T21:17:38Z",
+      "updatedAt": "2021-01-20T22:59:36Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "mnot",
+          "authorAssociation": "MEMBER",
+          "body": "The forwarding rules are now subsumed by HTTP-core, i think; you could get by with a reference to [them](https://httpwg.org/http-core/draft-ietf-httpbis-semantics-latest.html#field.connection).",
+          "createdAt": "2021-01-20T01:16:02Z",
+          "updatedAt": "2021-01-20T01:16:02Z"
+        },
+        {
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Given the reference to HTTP-core it seems clear that \u201cwill need to\u201d should be MUST.\r\n\r\nI\u2019m less confident about just x-refing to HTTP-core: HTTP-core tells you to take the Connection field off, so I guess we can X-ref to HTTP-core for removal and then note that intermediaries need to remember that they may not add connection-specific fields to the H2 side of the connection. That should likely be clear enough?\r\n\r\nSomething like:\r\n\r\n> An intermediary transforming an HTTP/1.x message to HTTP/2 will need to remove connection-specific header fields as discussed in [HTTP-core \u00a7 7.6.1], or their messages will be treated by other HTTP/2 endpoints as malformed (Section 8.1.2.6).",
+          "createdAt": "2021-01-20T07:59:34Z",
+          "updatedAt": "2021-01-20T07:59:34Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "body": "That text sounds great.",
+          "createdAt": "2021-01-20T22:59:36Z",
+          "updatedAt": "2021-01-20T22:59:36Z"
         }
       ]
     }
